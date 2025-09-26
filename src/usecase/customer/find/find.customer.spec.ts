@@ -5,6 +5,7 @@ import FindCustomerUseCase from "./find.customer.usecase";
 import { Sequelize } from "sequelize-typescript";
 import CustomerModel from "../../../infrastructure/customer/repository/sequelize/customer.model";
 describe("Test find customer use case", () => {
+    let sequelize: Sequelize;
     beforeEach(async () => {
         sequelize = new Sequelize({
             dialect: "sqlite",
@@ -27,7 +28,7 @@ describe("Test find customer use case", () => {
         const useCase = new FindCustomerUseCase(customerRepository);
 
         const customer = new Customer("123", "Paulo");
-        const address = new Address("Street", 123, "city", "zip");
+        const address = new Address("Street", 123, "zip", "city");
         customer.changeAddress(address)
 
         await customerRepository.create(customer);
@@ -45,7 +46,7 @@ describe("Test find customer use case", () => {
                 zip: "zip",
             }
         }
-        const result = useCase.execute(input);
+        const result = await useCase.execute(input);
 
         expect(result).toEqual(output)
     })

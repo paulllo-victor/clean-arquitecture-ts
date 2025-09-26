@@ -18,7 +18,6 @@ export default class CreateCustomerUseCase {
             input.address.city
         )
         const customer = CustomerFactory.createWithAddress(input.name, address)
-        console.log(customer);
 
         await this.customerRepository.create(customer);
         return {
