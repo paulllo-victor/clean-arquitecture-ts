@@ -1,0 +1,29 @@
+import Notification from "./notification";
+
+describe("Unit test for notification", () => {
+    it("should create errors", () => {
+        const notification = new Notification();
+        const error = {
+            message: "Error message", context: "customer"
+        }
+
+        notification.addError(error);
+        expect(notification.messages("customer")).toBe("customer: Error message, ");
+
+        const error2 = {
+            message: "Error message2", context: "customer"
+        }
+
+        notification.addError(error2);
+        expect(notification.messages("customer")).toBe("customer: Error message, customer: Error message2, ");
+
+        const error4 = {
+            message: "Error message3", context: "order"
+        }
+
+        notification.addError(error4);
+        expect(notification.messages("order")).toBe("order: Error message3, ");
+
+        expect(notification.messages()).toBe("customer: Error message, customer: Error message2, order: Error message3, ");
+    })
+});
